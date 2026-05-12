@@ -1,3 +1,31 @@
+
+//----------------------------------------
+//simple utilities
+//----------------------------------------
+module tran_x(dx=0){
+ translate([dx,0,0]) children();
+}
+
+module tran_y(dy=0){
+ translate([0,dy,0]) children();
+}
+
+module tran_z(dz=0){
+ translate([0,0,dz]) children();
+}
+
+module rot_x(ax=0){
+ rotate([ax,0,0]) children();
+}
+
+module rot_y(ay=0){
+ rotate([0,ay,0]) children();
+}
+
+module rot_z(az=0){
+ rotate([0,0,az]) children();
+}
+
 //torus
 module torus(D,d,angle=360){
  rotate_extrude(angle)
