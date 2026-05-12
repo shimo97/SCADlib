@@ -26,6 +26,10 @@ module rot_z(az=0){
  rotate([0,0,az]) children();
 }
 
+//----------------------------------------
+//useful parts
+//----------------------------------------
+
 //torus
 module torus(D,d,angle=360){
  rotate_extrude(angle)
