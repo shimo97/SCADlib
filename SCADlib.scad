@@ -34,4 +34,27 @@ module screw_h(d,l,head_h,head_angle=45){
    ]);
  }
 }
+
+//----------------------------------------
+//multi-children generation modules
+//----------------------------------------
+
+//multiple children linear pattern generator
+//Parameters:
+// n - number of children
+// dist - distance between children
+// dir - direction vector of the linear array
+// center - flag to center the array
+module multi_children_linear(n,dist,dir=[1,0,0],center=false){
+
+ //computing translation vector
+ dir_vect=dist*dir/norm(dir);
+ //computing centering vector
+ center_vect= center ? -dir_vect*(n-1)/2 : [0,0,0];
+ 
+ translate(center_vect)
+  for(i=[0:1:n-1]){
+   translate(i*dir_vect)
+    children();
+  }
 }
