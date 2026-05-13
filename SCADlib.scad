@@ -27,6 +27,43 @@ module rot_z(az=0){
 }
 
 //----------------------------------------
+//geometric primitives
+//----------------------------------------
+
+//truncated cone by small diameter and height
+//negative height will make the tcone mirrored on xy
+module tcone_dh(D,d,h){
+ rotate_extrude()
+  polygon([
+   [0,0],
+   [D/2,0],
+   [d/2,h],
+   [0,h]
+  ]);
+}
+
+//truncated cone by small diameter and angle
+//negative angle will make 
+module tcone_da(D,d,a){
+ tcone_dh(D,d,(D-d)/2*tan(a));
+}
+
+//truncated cone by height and angle
+module tcone_ha(D,h,a){
+ tcone_dh(D,D-2*h/tan(a),h);
+}
+
+//cone by height
+module cone_h(D,h){
+ tcone_dh(D,0,h);
+}
+
+//cone by angle
+module cone_a(D,a){
+ tcone_da(D,0,a);
+}
+
+//----------------------------------------
 //useful parts
 //----------------------------------------
 
@@ -41,30 +78,16 @@ module torus(D,d,angle=360){
 module screw_d(d,l,head_d,head_angle=45){
  mirror([0,0,1]){
   cylinder(d=d,h=l);
- 
-  rotate_extrude()
-   polygon([
-    [0,0],
-    [head_d/2,0],
-    [d/2,((head_d-d)/2)*tan(head_angle)],
-    [0,((head_d-d)/2)*tan(head_angle)]
-   ]);
+  tcone_da(head_d,d,head_angle);
  }
 }
 
 //screw by head height
 module screw_h(d,l,head_h,head_angle=45){
- mirror([0,0,1]){
+ tran_z(-l)
   cylinder(d=d,h=l);
- 
-  rotate_extrude()
-   polygon([
-    [0,0],
-    [head_h/tan(head_angle)+d/2,0],
-    [d/2,head_h],
-    [0,head_h]
-   ]);
- }
+ tran_z(-head_h)
+  tcone_ha(d,head_h,-head_angle);
 }
 
 //----------------------------------------
