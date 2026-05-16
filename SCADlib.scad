@@ -113,3 +113,32 @@ module multi_children_linear(n,dist,dir=[1,0,0],center=false){
     children();
   }
 }
+
+//multiple children linear fit
+//fits the maximum amount of children inside a given vector length and with a given spacing
+//Parameters:
+// dir - the vector direction for fit (fit will be done inside dir length)
+// dist - distance between centers of children
+// mode - 0 for odd fit, 1 for even fit, 2 for the maximum between the two
+//NB:odd fit (mode 0) will alway place at least 1 children
+module fit_children_linear(dir, spacing, mode){
+
+ mod= norm(dir);
+ dir_norm=dir/mod;
+
+ //computing number of children
+ oddnum =1 + 2*floor((mod/2)/(spacing)); //odd number
+ evennum = 2*floor((mod/2+spacing/2)/(spacing)); //even number
+ num = mode==0 ? oddnum : (mode == 1) ? evennum : max(oddnum, evennum);
+
+ //starting position
+ startpos = (num%2==1) ?
+  mod/2 - spacing*(num-1)/2 : //odd
+  (mod + spacing)/2 - num/2*spacing ; //even
+
+ if(num>0)
+  for(n = [0:1:num-1]){
+   translate(dir_norm*(startpos+spacing*n))
+    children();
+  }
+}
