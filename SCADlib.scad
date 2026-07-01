@@ -47,6 +47,13 @@ module symm_z(){
 //geometric primitives
 //----------------------------------------
 
+//cube with centering only on given axis
+module ccube(dim, center=[true,true,true]){
+ center_tran=[center[0]?-dim[0]/2:0,center[1]?-dim[1]/2:0,center[2]?-dim[2]/2:0];
+ translate(center_tran)
+ cube(dim);
+}
+
 //truncated cone by small diameter and height
 //negative height will make the tcone mirrored on xy
 module tcone_dh(D,d,h){
