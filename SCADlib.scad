@@ -26,6 +26,23 @@ module rot_z(az=0){
  rotate([0,0,az]) children();
 }
 
+module symmetry(normal){
+ children();
+ mirror(normal) children();
+}
+
+module symm_x(){
+ symmetry([1,0,0]) children();
+}
+
+module symm_y(){
+ symmetry([0,1,0]) children();
+}
+
+module symm_z(){
+ symmetry([0,0,1]) children();
+}
+
 //----------------------------------------
 //geometric primitives
 //----------------------------------------
