@@ -91,6 +91,16 @@ module cone_a(D,a){
 //useful parts
 //----------------------------------------
 
+//slot
+module slot(pitch, d, h, center=false){
+ hull(){
+  tran_x(-pitch/2)
+   cylinder(d=d,h=h,center=center);
+  tran_x(pitch/2)
+   cylinder(d=d,h=h,center=center);
+ }
+}
+
 //torus
 module torus(D,d,angle=360){
  rotate_extrude(angle)
