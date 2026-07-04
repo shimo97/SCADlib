@@ -125,6 +125,51 @@ module screw_h(d,l,head_h,head_angle=45){
 }
 
 //----------------------------------------
+//parts manipulation
+//----------------------------------------
+
+//slices the children part horizontaly from z1 to z2
+//passing z1>z2 will make the slice negated
+//epsilon>0 will avoid artifacts in case of negated slice
+module slice_z(z1, z2, epsilon=0){
+ if(z1<z2){
+  intersection(){
+   children();
+   tran_z(z1)
+    linear_extrude(h=z2-z1) 
+     offset(epsilon)
+      projection()
+       children();
+  }
+ }else{
+  difference(){
+   children();
+   tran_z(z1)
+    linear_extrude(h=z1-z2) 
+     offset(epsilon)
+      projection()
+       children();
+  }
+ }
+}
+
+//same as slice_z but on the x coordinates
+module slice_x(x1, x2, epsilon=0){
+ rot_y(90)
+  slice_z(x1,x2,epsilon)
+   rot_y(-90)
+    children();
+}
+
+//same as slice_z but on the y coordinates
+module slice_y(y1, y2, epsilon=0){
+ rot_x(-90)
+  slice_z(y1,y2,epsilon)
+   rot_x(90)
+    children();
+}
+
+//----------------------------------------
 //multi-children generation modules
 //----------------------------------------
 
